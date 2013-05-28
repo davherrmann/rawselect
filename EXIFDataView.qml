@@ -11,7 +11,7 @@ Rectangle {
     property real colorBarHeight: units.gu(1)
     property real apertureViewOverlap: units.gu(3)
 
-    color: "transparent"
+    color: "#ECECEC"
 
     Column {
         anchors.fill: parent
@@ -77,12 +77,9 @@ Rectangle {
                             font.pixelSize: FontUtils.sizeToPixels("x-large")
                         }
                     }
-
                 }
             }
         }
     }
-
-
 }
 

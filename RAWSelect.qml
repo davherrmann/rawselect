@@ -36,36 +36,16 @@ MainView {
             }
         }
 
-        Row {
+        ButtonToolBar {
+            id: buttonToolBar
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: toolBarHeight - units.gu(0.6)
-            anchors.margins: units.gu(2)
-            anchors.left: parent.left
-            anchors.right: parent.right
-            spacing: units.gu(2)
-            FlatButton {
-                text: "1"
-                onPressedChanged: {
-                    exifDataView.barColor = pressed?"#77216F":"#333333"
-                }
-            }
-
-            FlatButton {
-                text: "2"
-                onPressedChanged: {
-                    exifDataView.barColor = pressed?"#77216F":"#333333"
-                }
-            }
-
-            FlatButton {
-                text: "4"
-                onPressedChanged: {
-                    exifDataView.barColor = pressed?"#77216F":"#333333"
-                }
-            }
+            anchors.bottomMargin: toolBarHeight //- units.gu(0.6)
+            width: selectingPage.width
+            buttonsWidth: selectingPage.width * 0.75
+            height: selectingPage.height - toolBarHeight
         }
 
-        EXIFData {
+        EXIFDataView {
             id: exifDataView
             width: parent.width
             height: toolBarHeight

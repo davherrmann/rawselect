@@ -1,9 +1,9 @@
 import QtQuick 2.0
 
 Rectangle {
-    id: buttonRect
-    width: parent.width / 3 - parent.spacing * 2
-    height: FontUtils.sizeToPixels("x-large") * 1.2
+    id: flatButton
+    width: units.gu(10)
+    height: units.gu(5)
     radius: units.gu(0.8)
     antialiasing: true
     color: buttonMA.pressed ? "#77216F": "#333333"
@@ -13,7 +13,25 @@ Rectangle {
     //signal pressedChanged()
 
     property alias text: buttonText.text
-    property alias pressed: buttonMA.pressed
+    property var pressed: buttonMA.pressed
+
+    property var roundCorners: [true, true, true, true]
+
+    Repeater {
+        id: corners
+        model: 4
+        Rectangle {
+            antialiasing: parent.antialiasing
+            width: flatButton.radius
+            height: flatButton.radius
+            visible: !roundCorners[index]
+            color: flatButton.color
+            anchors.left: (index==0 || index==3)?flatButton.left:undefined
+            anchors.right: (index==1 || index==2)?flatButton.right:undefined
+            anchors.top: (index==0 || index==1)?flatButton.top:undefined
+            anchors.bottom: (index==2 || index==3)?flatButton.bottom:undefined
+        }
+    }
 
     Text {
         id: buttonText
@@ -26,8 +44,14 @@ Rectangle {
     MouseArea {
         id: buttonMA
         anchors.fill: parent
-        onClicked: buttonRect.clicked()
-        onPressAndHold: buttonRect.pressAndHold();
-        onPressedChanged: buttonRect.pressedChanged();
+        onClicked: {
+            mouse.accepted = false
+            flatButton.clicked()
+        }
+        onPressAndHold: flatButton.pressAndHold();
+        onPressedChanged: flatButton.pressedChanged();
+        preventStealing: false
+        propagateComposedEvents: true
+        //drag.target: buttonRect
     }
 }
