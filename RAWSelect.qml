@@ -58,7 +58,7 @@ MainView {
             }
 
             FlatButton {
-                text: "3"
+                text: "4"
                 onPressedChanged: {
                     exifDataView.barColor = pressed?"#77216F":"#333333"
                 }
