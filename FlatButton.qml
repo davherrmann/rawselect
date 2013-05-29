@@ -6,15 +6,16 @@ Rectangle {
     height: units.gu(5)
     radius: units.gu(0.8)
     antialiasing: true
-    color: buttonMA.pressed ? "#77216F": "#333333"
+    color: pressed ? "#77216F": "#333333"
 
     signal clicked()
     signal pressAndHold()
     //signal pressedChanged()
 
     property alias text: buttonText.text
-    property var pressed: buttonMA.pressed
+    property alias iconSource: buttonImage.source
 
+    property var pressed: buttonMA.pressed
     property var roundCorners: [true, true, true, true]
 
     Repeater {
@@ -32,13 +33,28 @@ Rectangle {
             anchors.bottom: (index==2 || index==3)?flatButton.bottom:undefined
         }
     }
+    Item {
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: buttonImage.width + buttonText.width
 
-    Text {
-        id: buttonText
-        anchors.centerIn: parent
-        color: buttonMA.pressed? "#ECECEC": "#ECECEC"
-        font.pixelSize: FontUtils.sizeToPixels("x-large")
-        font.family: "Ubuntu"
+        Image {
+            id: buttonImage
+            source: "./res/icons/tick.svg"
+            height: source!=""?parent.height * 0.7:0
+            width: height
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Text {
+            id: buttonText
+            anchors.left: buttonImage.right
+            anchors.verticalCenter: parent.verticalCenter
+            color: buttonMA.pressed? "#ECECEC": "#ECECEC"
+            font.pixelSize: FontUtils.sizeToPixels("x-large")
+            font.family: "Ubuntu"
+        }
     }
 
     MouseArea {
