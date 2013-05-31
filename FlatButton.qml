@@ -18,6 +18,8 @@ Rectangle {
     property var pressed: buttonMA.pressed
     property var roundCorners: [true, true, true, true]
 
+    property var mouseArea: buttonMA
+
     Repeater {
         id: corners
         model: 4

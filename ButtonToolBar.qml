@@ -25,14 +25,12 @@ Item {
 
         onFolderChosen: {
             visible = false;
-            console.log("chosen folder: " + lastChosenFolder)
         }
 
         onVisibleChanged: {
             if(visible) {
                 for (var folderRect in folderRects) {
                     folderRect.pressedMouseHovers = false;
-                    console.log("resetHover")
                 }
             }
         }
@@ -83,7 +81,6 @@ Item {
             }
         }
         onMouseYChanged: {
-            console.log("ychanged: " + pressed + " " + folderPicker.visible)
             if (pressed && folderPicker.visible) {
                 for (var i = 0; i < folderPicker.folderRects.length; i++) {
                     var folderRect = folderPicker.folderRects[i]
@@ -91,11 +88,7 @@ Item {
                                 buttonToolBarMA, mouseX, mouseY)
                     var mappedPoint = Qt.point(mappedPointObject.x,
                                                mappedPointObject.y)
-                    console.log("check for contain")
-                    console.log(mappedPointObject.x + " " + mappedPointObject.y)
                     if (folderRect.contains(mappedPoint)) {
-                        console.log("contains")
-                        console.log(folderRect.pressedMouseHovers)
                         folderRect.pressedMouseHovers = true
                         //folderRect.pressedMouseHoversChanged()
                     } else if (folderRect.pressedMouseHovers === true) {
