@@ -14,8 +14,41 @@ MouseArea {
                 initMouseArea(mouseAreas[i])
                 mouseAreasInfo[mouseAreas[i]] = ({
                                                      containsMouse: false,
-                                                     initialised: false
+                                                     initialised: false,
+                                                     pressed: false
                                                  });
+            }
+        }
+    }
+
+    onPressedChanged: {
+        for (var i = 0; i < mouseAreas.length; i++) {
+            if (containsMouse(mouseAreas[i])) {
+                if(pressed) {
+                    //mouseAreas[i].pressed = true;
+                    console.log("pressed " + i);
+                    mouseAreasInfo[mouseAreas[i]].pressed = true;
+                } else {
+                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
+                        //mouseAreas[i].pressed = false;
+                        //mouseAreas[i].clicked();
+                        mouseAreas[i].pressedChanged();
+                        mouseAreasInfo[mouseAreas[i]].pressed = false;
+                        console.log("released " + i);
+                        console.log("clicked " + i);
+                    } else {
+                        mouseAreas[i].pressedChanged();
+                        console.log("released " + i);
+                    }
+                }
+            } else {
+                if(!pressed) {
+                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
+                        //mouseAreas[i].pressed = false;
+                        console.log("released " + i)
+                        mouseAreasInfo[mouseAreas[i]].pressed = false;
+                    }
+                }
             }
         }
     }
@@ -49,6 +82,33 @@ MouseArea {
         mouseArea.enabled = false
         return mouseArea
     }
+
+    /* function calcMinRect() {
+        var minX = 100000;
+        var minY = 100000;
+        var maxX = 0;
+        var maxY = 0;
+        for (var i = 0; i < mouseAreas.length; i++) {
+            var max = Math.max;
+            var min = Math.min;
+            console.log(i)
+            var mouseAreaRect = mouseEventPropagator.parent.mapFromItem(mouseAreas[i], 0, 0, mouseAreas[i].width, mouseAreas[i].height);
+            minX = min(minX, mouseAreaRect.x);
+            console.log("minX: " + mouseAreaRect.x)
+            minY = min(minY, mouseAreaRect.y);
+            console.log(mouseAreaRect.y)
+            maxX = max(maxX, mouseAreaRect.x + mouseAreaRect.width);
+            console.log(mouseAreaRect.x + mouseAreaRect.width)
+            maxY = max(maxY, mouseAreaRect.y + mouseAreaRect.height);
+            console.log(mouseAreaRect.y + mouseAreaRect.height)
+        }
+        return ({
+                    x: minX,
+                    y: minY,
+                    width: maxX - minX,
+                    height: maxY - minY
+                });
+    } */
 
     function containsMouse(mouseArea) {
         var mappedPointObject = mouseArea.mapFromItem(mouseEventPropagator,
