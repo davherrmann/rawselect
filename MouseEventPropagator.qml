@@ -25,26 +25,25 @@ MouseArea {
         for (var i = 0; i < mouseAreas.length; i++) {
             if (containsMouse(mouseAreas[i])) {
                 if(pressed) {
-                    //mouseAreas[i].pressed = true;
+                    mouseAreas[i].onPressed(null);
                     console.log("pressed " + i);
                     mouseAreasInfo[mouseAreas[i]].pressed = true;
                 } else {
                     if(mouseAreasInfo[mouseAreas[i]].pressed) {
-                        //mouseAreas[i].pressed = false;
-                        //mouseAreas[i].clicked();
-                        mouseAreas[i].pressedChanged();
+                        mouseAreas[i].released(null);
+                        mouseAreas[i].clicked(null);
                         mouseAreasInfo[mouseAreas[i]].pressed = false;
                         console.log("released " + i);
                         console.log("clicked " + i);
                     } else {
-                        mouseAreas[i].pressedChanged();
+                        mouseAreas[i].released(null);
                         console.log("released " + i);
                     }
                 }
             } else {
                 if(!pressed) {
                     if(mouseAreasInfo[mouseAreas[i]].pressed) {
-                        //mouseAreas[i].pressed = false;
+                        mouseAreas[i].released(null);
                         console.log("released " + i)
                         mouseAreasInfo[mouseAreas[i]].pressed = false;
                     }
