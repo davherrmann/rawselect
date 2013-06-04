@@ -43,6 +43,17 @@ MouseArea {
 
     onPressedChanged: {
         for (var i = 0; i < mouseAreas.length; i++) {
+            if (!containsMouse(mouseAreas[i])) {
+                if(!pressed) {
+                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
+                        mouseAreas[i].pressed = false;
+                        //console.log("released " + i)
+                        mouseAreasInfo[mouseAreas[i]].pressed = false;
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < mouseAreas.length; i++) {
             if (containsMouse(mouseAreas[i])) {
                 if(pressed) {
                     mouseAreas[i].pressed = true;
@@ -51,7 +62,7 @@ MouseArea {
                 } else {
                     if(mouseAreasInfo[mouseAreas[i]].pressed) {
                         mouseAreas[i].pressed = false;
-                        mouseAreas[i].clicked(null);
+                        //mouseAreas[i].clicked(null);
                         mouseAreasInfo[mouseAreas[i]].pressed = false;
                         //console.log("released " + i);
                         //console.log("clicked " + i);
@@ -59,14 +70,6 @@ MouseArea {
                         //mouseAreas[i].pressed = false;
                         mouseAreas[i].pressedChanged();
                         //console.log("released " + i);
-                    }
-                }
-            } else {
-                if(!pressed) {
-                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
-                        mouseAreas[i].pressed = false;
-                        //console.log("released " + i)
-                        mouseAreasInfo[mouseAreas[i]].pressed = false;
                     }
                 }
             }

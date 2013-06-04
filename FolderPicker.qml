@@ -27,15 +27,15 @@ Item {
                 height: (folderPicker.height - (folderCount - 1) * folderMargins) / folderCount
                 color: "#333333"
 
-                property bool pressedMouseHovers: false
+                property bool containsMouse: false
                 property bool pressed: false
 
-                onPressedMouseHoversChanged: {
-                    color =  pressedMouseHovers?"#77216F":"#333333";
+                onContainsMouseChanged: {
+                    color =  containsMouse?"#77216F":"#333333";
                 }
 
                 onPressedChanged: {
-                    if(!pressed) {
+                    if(!pressed && containsMouse) {
                         lastChosenFolder = index;
                         folderPicker.folderChosen();
                         color = "#333333";

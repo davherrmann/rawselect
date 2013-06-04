@@ -15,7 +15,8 @@ Rectangle {
     property alias text: buttonText.text
     property alias iconSource: buttonImage.source
 
-    property var pressed: buttonMA.pressed
+    property bool pressed: buttonMA.pressed
+    property bool containsMouse: false
     property var roundCorners: [true, true, true, true]
 
     property var mouseArea: buttonMA

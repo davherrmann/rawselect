@@ -14,6 +14,18 @@ Item {
                                 ]
     property var buttonTexts: ["", "", ""]
     property real buttonHeight: units.gu(5)
+    property int lastButtonPressedIndex: -1
+
+    function setupMouseAreas() {
+        try {
+            var mouseAreas = [buttons.itemAt(0), buttons.itemAt(1), buttons.itemAt(2)];
+            mouseAreas.push.apply(mouseAreas, folderPicker.folderRects)
+            console.log(mouseAreas)
+            mouseEventPropagator.setMouseAreas(mouseAreas);
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
     FolderPicker {
         id: folderPicker
@@ -25,79 +37,20 @@ Item {
 
         onFolderChosen: {
             visible = false;
+            console.log(buttonMapping[lastButtonPressedIndex].data +
+                        (buttonMapping[lastButtonPressedIndex].showFolders?": " + folderPicker.lastChosenFolder:""))
         }
 
-        onVisibleChanged: {
-            if(visible) {
-                for (var folderRect in folderRects) {
-                    folderRect.pressedMouseHovers = false;
-                }
-            }
-        }
+        Component.onCompleted: setupMouseAreas()
     }
 
-    MouseArea {
-        id: buttonToolBarMA
+    MouseEventPropagator {
+        id: mouseEventPropagator
         anchors.bottom: parent.bottom
         width: parent.width
         height: folderPicker.visible?parent.height:buttonHeight
         z: folderPicker.z + 1
         propagateComposedEvents: true
-        onPressedChanged: {
-            if (!folderPicker.visible) {
-                for (var i = 0; i < buttons.count; i++) {
-                    var button = buttons.itemAt(i)
-                    var mappedPointObject = button.mapFromItem(buttonToolBarMA,
-                                                               mouseX, mouseY)
-                    var mappedPoint = Qt.point(mappedPointObject.x,
-                                               mappedPointObject.y)
-                    if (button.contains(mappedPoint)) {
-                        button.pressed = pressed;
-                        //button.pressedChanged();
-                        buttonToolBarMA.mouseYChanged(this)
-                    }
-                }
-            } else {
-                for (var i = 0; i < folderPicker.folderRects.length; i++) {
-                    var folderRect = folderPicker.folderRects[i]
-                    var mappedPointObject = folderRect.mapFromItem(
-                                buttonToolBarMA, mouseX, mouseY)
-                    var mappedPoint = Qt.point(mappedPointObject.x,
-                                               mappedPointObject.y)
-                    if (folderRect.contains(mappedPoint)) {
-                        folderRect.pressed = pressed
-                        folderRect.pressedChanged()
-                    }
-                }
-            }
-            if(!pressed) {
-                for (var i = 0; i < buttons.count; i++) {
-                    var button = buttons.itemAt(i)
-                    if (button.pressed && !pressed) {
-                        button.pressed = false;
-                        //button.pressedChanged();
-                    }
-                }
-            }
-        }
-        onMouseYChanged: {
-            if (pressed && folderPicker.visible) {
-                for (var i = 0; i < folderPicker.folderRects.length; i++) {
-                    var folderRect = folderPicker.folderRects[i]
-                    var mappedPointObject = folderRect.mapFromItem(
-                                buttonToolBarMA, mouseX, mouseY)
-                    var mappedPoint = Qt.point(mappedPointObject.x,
-                                               mappedPointObject.y)
-                    if (folderRect.contains(mappedPoint)) {
-                        folderRect.pressedMouseHovers = true
-                        //folderRect.pressedMouseHoversChanged()
-                    } else if (folderRect.pressedMouseHovers === true) {
-                        folderRect.pressedMouseHovers = false
-                        //folderRect.pressedMouseHoversChanged()
-                    }
-                }
-            }
-        }
     }
 
     Repeater {
@@ -115,11 +68,11 @@ Item {
             onPressedChanged: {
                 exifDataView.barColor = pressed ? "#77216F" : "#333333"
                 folderPicker.visible = buttonMapping[index].showFolders?pressed:false
-                if(!pressed) {
-                    console.log(buttonMapping[index].data +
-                                (buttonMapping[index].showFolders?": " + folderPicker.lastChosenFolder:""))
+                if(pressed) {
+                    lastButtonPressedIndex = index
                 }
             }
         }
+        onItemAdded: setupMouseAreas()
     }
 }
