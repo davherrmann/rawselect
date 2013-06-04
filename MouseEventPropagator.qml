@@ -33,9 +33,7 @@ MouseArea {
             if (!(mouseAreas[i] in mouseAreasInfo)) {
                 initMouseArea(mouseAreas[i])
                 mouseAreasInfo[mouseAreas[i]] = ({
-                                                     containsMouse: false,
-                                                     initialised: false,
-                                                     pressed: false
+                                                     initialised: false
                                                  });
             }
         }
@@ -45,10 +43,9 @@ MouseArea {
         for (var i = 0; i < mouseAreas.length; i++) {
             if (!containsMouse(mouseAreas[i])) {
                 if(!pressed) {
-                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
+                    if(mouseAreas[i].pressed) {
                         mouseAreas[i].pressed = false;
                         //console.log("released " + i)
-                        mouseAreasInfo[mouseAreas[i]].pressed = false;
                     }
                 }
             }
@@ -58,12 +55,10 @@ MouseArea {
                 if(pressed) {
                     mouseAreas[i].pressed = true;
                     //console.log("pressed " + i);
-                    mouseAreasInfo[mouseAreas[i]].pressed = true;
                 } else {
-                    if(mouseAreasInfo[mouseAreas[i]].pressed) {
+                    if(mouseAreas[i].pressed) {
                         mouseAreas[i].pressed = false;
                         //mouseAreas[i].clicked(null);
-                        mouseAreasInfo[mouseAreas[i]].pressed = false;
                         //console.log("released " + i);
                         //console.log("clicked " + i);
                     } else {
@@ -82,16 +77,14 @@ MouseArea {
     function mouseMoved() {
         for (var i = 0; i < mouseAreas.length; i++) {
             if (containsMouse(mouseAreas[i])) {
-                if(!mouseAreasInfo[mouseAreas[i]].containsMouse) {
+                if(!mouseAreas[i].containsMouse) {
                     mouseAreas[i].containsMouse = true;
                     //console.log("entered " + i)
-                    mouseAreasInfo[mouseAreas[i]].containsMouse = true;
                 }
             } else {
-                if(mouseAreasInfo[mouseAreas[i]].containsMouse) {
+                if(mouseAreas[i].containsMouse) {
                     mouseAreas[i].containsMouse = false;
                     //console.log("exited " + i)
-                    mouseAreasInfo[mouseAreas[i]].containsMouse = false;
                 }
             }
         }
