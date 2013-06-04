@@ -39,6 +39,10 @@ Item {
             visible = false;
             console.log(buttonMapping[lastButtonPressedIndex].data +
                         (buttonMapping[lastButtonPressedIndex].showFolders?": " + folderPicker.lastChosenFolder:""))
+            for (var i=0; i < folderRects.length; i++) {
+                folderRects[i].containsMouse = false;
+                folderRects[i].pressed = false;
+            }
         }
 
         Component.onCompleted: setupMouseAreas()
