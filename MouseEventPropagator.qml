@@ -7,10 +7,30 @@ MouseArea {
     property var mouseAreas: []
     property var mouseAreasInfo: ({})
 
+    function setMouseAreas(mouseAreasUnchecked) {
+        if (!check(mouseAreasUnchecked) || !check(mouseAreasUnchecked.length)) {
+            throw new Error("setMouseAreas(): argument must be an array");
+        }
+        mouseAreas = [];
+        var mappedIndex = 0;
+        for (var i = 0; i < mouseAreasUnchecked.length; i++) {
+            if (check(mouseAreasUnchecked[i])){
+                try {
+                    mouseAreasUnchecked[i].containsMouse = false;
+                    mouseAreasUnchecked[i].pressed = false;
+                    mouseAreas[mappedIndex] = mouseAreasUnchecked[i];
+                    mappedIndex++;
+                } catch(err) {
+                    throw new Error("setMouseAreas(): mouseArea with index " + i + " has to have both 'containsMouse' and 'pressed' as writable properties...")
+                }
+            }
+        }
+        mouseAreasChanged();
+    }
+
     onMouseAreasChanged: {
         for (var i = 0; i < mouseAreas.length; i++) {
-            if (check(mouseAreas[i]) && !(mouseAreas[i] in mouseAreasInfo)) {
-                console.log("initalise " + i)
+            if (!(mouseAreas[i] in mouseAreasInfo)) {
                 initMouseArea(mouseAreas[i])
                 mouseAreasInfo[mouseAreas[i]] = ({
                                                      containsMouse: false,
@@ -25,26 +45,27 @@ MouseArea {
         for (var i = 0; i < mouseAreas.length; i++) {
             if (containsMouse(mouseAreas[i])) {
                 if(pressed) {
-                    mouseAreas[i].onPressed(null);
-                    console.log("pressed " + i);
+                    mouseAreas[i].pressed = true;
+                    //console.log("pressed " + i);
                     mouseAreasInfo[mouseAreas[i]].pressed = true;
                 } else {
                     if(mouseAreasInfo[mouseAreas[i]].pressed) {
-                        mouseAreas[i].released(null);
+                        mouseAreas[i].pressed = false;
                         mouseAreas[i].clicked(null);
                         mouseAreasInfo[mouseAreas[i]].pressed = false;
-                        console.log("released " + i);
-                        console.log("clicked " + i);
+                        //console.log("released " + i);
+                        //console.log("clicked " + i);
                     } else {
-                        mouseAreas[i].released(null);
-                        console.log("released " + i);
+                        //mouseAreas[i].pressed = false;
+                        mouseAreas[i].pressedChanged();
+                        //console.log("released " + i);
                     }
                 }
             } else {
                 if(!pressed) {
                     if(mouseAreasInfo[mouseAreas[i]].pressed) {
-                        mouseAreas[i].released(null);
-                        console.log("released " + i)
+                        mouseAreas[i].pressed = false;
+                        //console.log("released " + i)
                         mouseAreasInfo[mouseAreas[i]].pressed = false;
                     }
                 }
@@ -59,14 +80,14 @@ MouseArea {
         for (var i = 0; i < mouseAreas.length; i++) {
             if (containsMouse(mouseAreas[i])) {
                 if(!mouseAreasInfo[mouseAreas[i]].containsMouse) {
-                    mouseAreas[i].entered();
-                    console.log("entered " + i)
+                    mouseAreas[i].containsMouse = true;
+                    //console.log("entered " + i)
                     mouseAreasInfo[mouseAreas[i]].containsMouse = true;
                 }
             } else {
                 if(mouseAreasInfo[mouseAreas[i]].containsMouse) {
-                    mouseAreas[i].exited();
-                    console.log("exited " + i)
+                    mouseAreas[i].containsMouse = false;
+                    //console.log("exited " + i)
                     mouseAreasInfo[mouseAreas[i]].containsMouse = false;
                 }
             }
