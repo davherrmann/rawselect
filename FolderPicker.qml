@@ -3,7 +3,8 @@ import QtQuick 2.0
 Item {
     id: folderPicker
 
-    property real folderMargins: units.gu(0.5)
+    property real folderMargins: 0 // units.gu(0.5)
+    property real folderSeparatorHeight: 0 //units.gu(0.3)
     property int folderCount: Object.keys(folders).length
     property var folders: {"Folder 1": "red", "Folder 2": "yellow", "Folder 3": "blue", "Folder 4": "lime", "Folder 5": ""}
     property var folderRects: {
@@ -48,6 +49,13 @@ Item {
                     color: "#ECECEC"
                     font.pixelSize: FontUtils.sizeToPixels("large")
                     font.family: "Ubuntu"
+                }
+
+                Rectangle {
+                    width: parent.width
+                    anchors.bottom: parent.bottom
+                    height: folderSeparatorHeight
+                    color: "#77216F"
                 }
             }
         }
