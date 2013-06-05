@@ -1,8 +1,21 @@
 import QtQuick 2.0
 import QtQuick.XmlListModel 2.0
+import "common/Utils.js" as Utils
 
 ListModel {
     id: exifData
+
+    property var emptyData: ({"fileName": "",
+                                 "dateTime": "",
+                                 "imageRatio": "",
+                                 "exposureTime": "",
+                                 "fNumber": "",
+                                 "colorSpace": "",
+                                 "whiteBalance": "",
+                                 "cameraModel": "",
+                                 "isoSpeed": "",
+                                 "lensModel": "",
+                                 "exposureMode": ""})
 
     function getPath(idx) {
         return (idx >= 0 && idx < count) ? get(idx).path: ""
@@ -14,6 +27,10 @@ ListModel {
 
     function getImageRatio(idx) {
         return (idx >= 0 && idx < count) ? get(idx).imageRatio: 0.0
+    }
+
+    function getData(idx) {
+        return Utils.check(get(idx))?get(idx):emptyData;
     }
 
     function calcRatio() {

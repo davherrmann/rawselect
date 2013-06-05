@@ -2,6 +2,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
+import "common/Utils.js" as Utils
+
 MainView {
     id: root
     objectName: "mainView"
@@ -50,7 +52,9 @@ MainView {
             width: parent.width
             height: toolBarHeight
             anchors.bottom: parent.bottom
-            exifData: exifData.get(imageView.currentIndex)
+            exifData: {
+                return exifData.getData(imageView.currentIndex);
+            }
             //fileName: imageView.getCurrentPath()
 
             function update() {
