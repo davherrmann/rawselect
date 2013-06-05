@@ -5,6 +5,7 @@ Item {
 
     property real folderMargins: 0 // units.gu(0.5)
     property real folderSeparatorHeight: 0 //units.gu(0.3)
+    property real folderColorWidth: units.gu(2)
     property int folderCount: Object.keys(folders).length
     property var folders: {"Folder 1": "red", "Folder 2": "yellow", "Folder 3": "blue", "Folder 4": "lime", "Folder 5": ""}
     property var folderRects: {
@@ -49,6 +50,17 @@ Item {
                     color: "#ECECEC"
                     font.pixelSize: FontUtils.sizeToPixels("large")
                     font.family: "Ubuntu"
+                }
+
+                Rectangle {
+                    height: parent.height * 0.6
+                    width: folderColorWidth
+                    radius: height * 0.1
+                    antialiasing: true
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: units.gu(1)
+                    color: folders[Object.keys(folders)[index]]
                 }
 
                 Rectangle {
