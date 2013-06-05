@@ -32,7 +32,7 @@ ListModel {
             if (status === XmlListModel.Ready) {
                 console.log("xml changed...")
                 for (var i = 0; i < count; i++) {
-                    exifData.append({"path": get(i).path,
+                    exifData.append({"fileName": get(i).path,
                                         "dateTime": get(i).dateTime,
                                         "imageRatio": get(i).imageHeight / get(i).imageWidth,
                                         "exposureTime": get(i).exposureTime,

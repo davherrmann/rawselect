@@ -22,7 +22,7 @@ ListView {
 
     delegate: Image {
         id: imageDelegate
-        source: sourceURL + path
+        source: sourceURL + fileName
 
         height: parent.height
         width: imageWidth //height / imageRatio

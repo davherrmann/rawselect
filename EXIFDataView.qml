@@ -3,9 +3,7 @@ import Ubuntu.Components 0.1
 
 
 Rectangle {
-    property string fileName: ""
-    property string dateTime: ""
-    property string fNumber: ""
+    property var exifData: ({fileName: 2})
     property string barColor: "#000000"
 
     property real colorBarHeight: units.gu(1)
@@ -35,12 +33,15 @@ Rectangle {
                 //width: parent.width - parent.height * 0.9
                 anchors.leftMargin: units.gu(2)
                 Label {
-                    text: fileName
+                    text: exifData.fileName
                     font.pixelSize: FontUtils.sizeToPixels("large")
                 }
                 Label {
+                    text: exifData.lensModel
+                }
+                Label {
                     //width: parent.width
-                    text: dateTime
+                    text: exifData.dateTime
                 }
             }
 
@@ -73,7 +74,7 @@ Rectangle {
                         Label {
                             id: fNumberText
                             anchors.centerIn: parent
-                            text: {var f = fNumber.split("/"); return f.length==1?f[0]: f[0]/f[1]}
+                            text: {var f = exifData.fNumber.split("/"); return f.length==1?f[0]: f[0]/f[1]}
                             font.pixelSize: FontUtils.sizeToPixels("x-large")
                         }
                     }
