@@ -5,7 +5,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import "common/Utils.js" as Utils
 
 MainView {
-    id: root
+    id: mainView
     objectName: "mainView"
     applicationName: "RAWSelect" //must match the .desktop file name
     automaticOrientation: true
@@ -15,47 +15,16 @@ MainView {
 
     property real margins: units.gu(2)
     property real toolBarHeight: units.gu(16)
-    property real innerWidth: root.width - 2 * margins
+    property real innerWidth: width - 2 * margins
 
-    ImageListModel {
-        id: exifData
-    }
+    property var exifDataList: ImageListModel { }
 
-    Page {
-        id: selectingPage
-        title: i18n.tr("Select...")
-
-        ImageView {
-            id: imageView
-            model: exifData
-            height: selectingPage.height - toolBarHeight
-            width: selectingPage.width
-            imageWidth: height / exifData.calcRatio()
-            sourceURL: "http://localhost:8080/images/"
-
-            onCurrentIndexChanged: {
-                exifDataView.update()
+    Tabs {
+        Tab {
+            title: "Stack"
+            page: ImageStackPage {
+                id: imageStackPage
             }
-        }
-
-        ButtonToolBar {
-            id: buttonToolBar
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: toolBarHeight //- units.gu(0.6)
-            width: selectingPage.width
-            buttonsWidth: selectingPage.width * 0.75
-            height: selectingPage.height - toolBarHeight
-        }
-
-        EXIFDataView {
-            id: exifDataView
-            width: parent.width
-            height: toolBarHeight
-            anchors.bottom: parent.bottom
-            exifData: {
-                return exifData.getData(imageView.currentIndex);
-            }
-            barColor: "#333333"
         }
     }
 }
