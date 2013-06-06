@@ -2,7 +2,6 @@ import QtQuick 2.0
 
 ListView {
     id: imageListView
-    model: exifData
     clip: true
 
     property real imageWidth: width
