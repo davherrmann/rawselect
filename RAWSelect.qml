@@ -26,5 +26,11 @@ MainView {
                 id: imageStackPage
             }
         }
+        Tab {
+            title: "Grid"
+            page: ImageGridPage {
+                id: imageGridPage
+            }
+        }
     }
 }
