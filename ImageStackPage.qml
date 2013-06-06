@@ -2,14 +2,14 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Page {
-    id: selectingPage
+    id: imageStackPage
     //title: i18n.tr("Select...")
 
     ImageListView {
         id: imageView
         model: exifDataList
-        height: selectingPage.height - toolBarHeight
-        width: selectingPage.width
+        height: imageStackPage.height - toolBarHeight
+        width: imageStackPage.width
         imageWidth: height / exifDataList.calcRatio()
         sourceURL: "http://localhost:8080/images/"
 
@@ -22,9 +22,9 @@ Page {
         id: buttonToolBar
         anchors.bottom: parent.bottom
         anchors.bottomMargin: toolBarHeight //- units.gu(0.6)
-        width: selectingPage.width
-        buttonsWidth: selectingPage.width * 0.75
-        height: selectingPage.height - toolBarHeight
+        width: imageStackPage.width
+        buttonsWidth: imageStackPage.width * 0.75
+        height: imageStackPage.height - toolBarHeight
     }
 
     EXIFDataView {
