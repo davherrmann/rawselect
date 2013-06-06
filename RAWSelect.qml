@@ -55,16 +55,7 @@ MainView {
             exifData: {
                 return exifData.getData(imageView.currentIndex);
             }
-            //fileName: imageView.getCurrentPath()
-
-            function update() {
-                /*var currentEXIFData = exifData.get(imageView.currentIndex)
-                fileName = currentEXIFData.path
-                dateTime = currentEXIFData.dateTime
-                fNumber = currentEXIFData.fNumber*/
-                //barColor = "#" + 0 + 0 + imageView.currentIndex + imageView.currentIndex + imageView.currentIndex + imageView.currentIndex
-                barColor = "#333333"
-            }
+            barColor: "#333333"
         }
     }
 }
