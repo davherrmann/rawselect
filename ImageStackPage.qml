@@ -6,7 +6,7 @@ Page {
     //title: i18n.tr("Select...")
 
     ImageListView {
-        id: imageView
+        id: imageListView
         model: exifDataList
         height: imageStackPage.height - toolBarHeight
         width: imageStackPage.width
