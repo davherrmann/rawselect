@@ -1,16 +1,13 @@
 import QtQuick 2.0
 
 ListView {
-    id: imageView
+    id: imageListView
     model: exifData
     clip: true
 
     property real imageWidth: width
-
     property string sourceURL: ""
 
-
-    //anchors.fill: parent
     //snapMode: ListView.SnapOneItem;
     orientation: ListView.Horizontal
     cacheBuffer: imageWidth * 2;
@@ -25,11 +22,7 @@ ListView {
         source: sourceURL + fileName
 
         height: parent.height
-        width: imageWidth //height / imageRatio
+        width: imageWidth
         fillMode: Image.PreserveAspectCrop
     }
-
-    //onCurrentIndexChanged: {
-    //    exifDataView.update()
-    //}
 }
